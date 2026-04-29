@@ -2,8 +2,8 @@
 name: typescript-reviewer
 description: Expert TypeScript/JavaScript code reviewer — type safety, async correctness, Node/web security, idiomatic patterns. Use for all TS/JS code changes.
 tools: read, grep, find, ls, bash
-model: openai-codex/gpt-5.5
-thinking: medium
+model: deepseek/deepseek-v4-pro
+thinking: high
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false

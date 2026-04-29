@@ -2,8 +2,8 @@
 name: rust-reviewer
 description: Expert Rust code reviewer — ownership, lifetimes, error handling, unsafe usage, idiomatic patterns. Use for all Rust code changes.
 tools: read, grep, find, ls, bash
-model: openai-codex/gpt-5.5
-thinking: medium
+model: deepseek/deepseek-v4-pro
+thinking: high
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false

@@ -31,7 +31,7 @@
         "thinking": "medium"
       },
       "reviewer": {
-        "model": "openai-codex/gpt-5.5",
+        "model": "deepseek/deepseek-v4-pro",
         "thinking": "high"
       },
       "scout": {
