@@ -1,0 +1,81 @@
+{
+	"$schema": "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
+	"name": "noctalia",
+	"vars": {
+		"primary": "#4ed8e8",
+		"secondary": "#81d3de",
+		"tertiary": "#a3c9fe",
+		"error": "#ffb4ab",
+		"surface": "#0e141c",
+		"surfaceVariant": "#3c4758",
+		"onSurface": "#dde3ee",
+		"onSurfaceVariant": "#bcc7db",
+		"outline": "#8691a4",
+		"onPrimary": "#00363c",
+		"onError": "#690005"
+	},
+	"colors": {
+		"accent": "primary",
+		"border": "primary",
+		"borderAccent": "tertiary",
+		"borderMuted": "outline",
+		"success": "secondary",
+		"error": "error",
+		"warning": "tertiary",
+		"muted": "onSurfaceVariant",
+		"dim": "outline",
+		"text": "",
+		"thinkingText": "onSurfaceVariant",
+
+		"selectedBg": "surfaceVariant",
+		"userMessageBg": "surfaceVariant",
+		"userMessageText": "",
+		"customMessageBg": "surfaceVariant",
+		"customMessageText": "",
+		"customMessageLabel": "tertiary",
+		"toolPendingBg": "surface",
+		"toolSuccessBg": "surface",
+		"toolErrorBg": "surface",
+		"toolTitle": "primary",
+		"toolOutput": "onSurfaceVariant",
+
+		"mdHeading": "tertiary",
+		"mdLink": "primary",
+		"mdLinkUrl": "outline",
+		"mdCode": "primary",
+		"mdCodeBlock": "secondary",
+		"mdCodeBlockBorder": "outline",
+		"mdQuote": "onSurfaceVariant",
+		"mdQuoteBorder": "outline",
+		"mdHr": "outline",
+		"mdListBullet": "primary",
+
+		"toolDiffAdded": "secondary",
+		"toolDiffRemoved": "error",
+		"toolDiffContext": "onSurfaceVariant",
+
+		"syntaxComment": "outline",
+		"syntaxKeyword": "primary",
+		"syntaxFunction": "tertiary",
+		"syntaxVariable": "secondary",
+		"syntaxString": "secondary",
+		"syntaxNumber": "tertiary",
+		"syntaxType": "primary",
+		"syntaxOperator": "onSurface",
+		"syntaxPunctuation": "onSurfaceVariant",
+
+		"thinkingOff": "outline",
+		"thinkingMinimal": "onSurfaceVariant",
+		"thinkingLow": "secondary",
+		"thinkingMedium": "primary",
+		"thinkingHigh": "tertiary",
+		"thinkingXhigh": "error",
+
+		"bashMode": "secondary"
+	},
+	"export": {
+		"pageBg": "#0e141c",
+		"cardBg": "#3c4758",
+		"infoBg": "#3c4758"
+	}
+}

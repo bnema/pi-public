@@ -1,0 +1,15 @@
+- Before editing, check whether the current branch is `main`; create a working branch if needed.
+- List sub agents and delegate clear, scoped, easy-to-split implementation tasks more often.
+- Keep the main agent focused on orchestration, decisions, trade-offs, synthesis, and final validation.
+- Before implementing directly, ask whether the task is well specified, mostly mechanical, explainable in a few steps, and likely doable by a cheaper model; delegate execution when it is.
+- Before coding against unfamiliar APIs, verify current behavior in official docs, relevant skills, Context7, or installed sources such as `node_modules`, `vendor`, or package code.
+- Do not one-shot implementations from memory when documentation or source code is available.
+- Use the narrowest, most specialized subagent that fits the task.
+- Use `grunt-worker` for repetitive mechanical tasks, simple refactors, renames, formatting, boilerplate, or targeted edits.
+- Use specialized reviewers or resolvers when the task exactly matches their domain.
+- Give subagents short, complete briefs with useful context, relevant files, constraints, expected steps, and desired output format.
+- Delegate one task at a time to reduce risk, or delegate independent tasks in parallel when they do not share state.
+- Do not delegate architecture decisions, product trade-offs, ambiguous tasks, or choices requiring the main agent’s direct responsibility.
+- After each delegation, read the result, verify it matches the request, integrate changes thoughtfully, and fix gaps.
+- After each completed phase, plan, or significant change, ask the appropriate language-specialized subagent to review uncommitted files or the branch diff against `main` before considering the work complete.
+- Commits needs to be focused on the "what" I don't want to see those kings of commits "fixing review comments" "addressing feedback"   

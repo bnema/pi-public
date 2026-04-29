@@ -1,0 +1,48 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": true,
+  "packages": [
+    "npm:pi-subagents",
+    "npm:pi-mcp-adapter",
+    "npm:pi-web-access",
+    "npm:pi-nvim"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "context-builder": {
+        "model": "deepseek/deepseek-v4-pro",
+        "thinking": "medium"
+      },
+      "delegate": {
+        "thinking": "medium"
+      },
+      "oracle": {
+        "model": "deepseek/deepseek-v4-pro",
+        "thinking": "high"
+      },
+      "planner": {
+        "model": "deepseek/deepseek-v4-pro",
+        "thinking": "medium"
+      },
+      "researcher": {
+        "model": "deepseek/deepseek-v4-pro",
+        "thinking": "medium"
+      },
+      "reviewer": {
+        "model": "openai-codex/gpt-5.5",
+        "thinking": "high"
+      },
+      "scout": {
+        "model": "deepseek/deepseek-v4-flash",
+        "thinking": "low"
+      },
+      "worker": {
+        "model": "deepseek/deepseek-v4-pro",
+        "thinking": "high"
+      }
+    }
+  },
+  "enabledModels": []
+}
