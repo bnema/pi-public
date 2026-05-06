@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /** Classify PR review comments into an action queue. */
 
 import { parseArgs, type StdoutMode } from "./lib/args.js";
@@ -35,7 +35,7 @@ type TriageReport = {
 };
 
 function usage(): never {
-  console.log(`Usage: pr-finding-triage.ts --index PATH [options]
+  console.log(`Usage: pr-finding-triage.js --index PATH [options]
 
 Options:
   --index PATH       JSONL comment index from pr-review-comments. Required.

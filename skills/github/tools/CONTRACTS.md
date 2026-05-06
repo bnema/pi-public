@@ -2,10 +2,10 @@
 
 Shared conventions:
 
-- Runtime: `bun $HOME/.agents/skills/github/tools/<tool>.ts`.
+- Runtime: `node $HOME/.agents/skills/github/tools/dist/<tool>.js` after compiling.
 - Repo/PR args: `--repo OWNER/REPO --pr NUMBER`; tools that need local files also accept `--cwd PATH` and default to current directory.
 - Output: stdout is JSON unless `--stdout none`; default artifacts are written under `/tmp` using 0700 directories and 0600 files. Explicit `--out`/`--json-out`/similar paths are allowed only as deliberate overrides; they are still created with 0600 and parent directories with 0700 when possible.
-- No build step. Typecheck with `rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json`.
+- Build step: run `rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json` before first use or when tools change. JavaScript outputs go to `tools/dist/`.
 - Exit 0 for successful output, including PR checks that are failing/pending as data. Exit 1 for CLI/gh/local IO errors. Exit 2 only for explicitly documented incomplete remote data such as pagination gaps.
 - Tools must not claim a human judgment was verified automatically. Machine verification means location/snippet evidence only.
 

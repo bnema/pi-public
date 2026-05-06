@@ -6,11 +6,14 @@
   "packages": [
     "npm:pi-subagents",
     "npm:pi-mcp-adapter",
-    "npm:pi-web-access",
-    "npm:pi-nvim"
+    "npm:pi-web-access"
   ],
   "subagents": {
     "agentOverrides": {
+      "backend-data": {
+        "model": "deepseek/deepseek-v4-pro",
+        "thinking": "high"
+      },
       "context-builder": {
         "model": "deepseek/deepseek-v4-pro",
         "thinking": "medium"

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /** Produce compact GitHub PR diff context for agents. */
 
 import { parseArgs, type StdoutMode } from "./lib/args.js";
@@ -28,7 +28,7 @@ type DiffContext = {
 };
 
 function usage(): never {
-  console.log(`Usage: pr-diff-context.ts [options]
+  console.log(`Usage: pr-diff-context.js [options]
 
 Options:
   --repo OWNER/REPO       GitHub repository. Default: parsed from git origin.

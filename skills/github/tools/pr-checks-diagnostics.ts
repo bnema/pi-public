@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /** Summarize GitHub PR checks as diagnostic data. */
 
 import { parseArgs, type StdoutMode } from "./lib/args.js";
@@ -23,7 +23,7 @@ type Report = {
 };
 
 function usage(): never {
-  console.log(`Usage: pr-checks-diagnostics.ts [options]
+  console.log(`Usage: pr-checks-diagnostics.js [options]
 
 Options:
   --repo OWNER/REPO   GitHub repository. Default: parsed from git origin.

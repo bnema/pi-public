@@ -12,7 +12,11 @@ This tool does **not** decide whether a reviewer is correct. It only checks whet
 ## Command
 
 ```bash
-bun $HOME/.agents/skills/github/tools/pr-review-verification.ts \
+# Build step (one-time or when tools change):
+rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+
+# Then run:
+node $HOME/.agents/skills/github/tools/dist/pr-review-verification.js \
   --triage-json /tmp/...finding-triage.json \
   --cwd /path/to/checkout \
   --repo OWNER/REPO --pr PR_NUMBER
@@ -21,7 +25,7 @@ bun $HOME/.agents/skills/github/tools/pr-review-verification.ts \
 You can also pass raw review comment JSONL:
 
 ```bash
-bun $HOME/.agents/skills/github/tools/pr-review-verification.ts --index /tmp/...comments.jsonl --cwd /path/to/checkout
+node $HOME/.agents/skills/github/tools/dist/pr-review-verification.js --index /tmp/...comments.jsonl --cwd /path/to/checkout
 ```
 
 Default categories from triage JSON:

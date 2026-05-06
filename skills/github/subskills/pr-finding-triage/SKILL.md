@@ -12,7 +12,11 @@ This is **classification of reviewer claims**, not proof that the claims are val
 ## Command
 
 ```bash
-bun $HOME/.agents/skills/github/tools/pr-finding-triage.ts --index /tmp/...comments.jsonl --repo OWNER/REPO --pr PR_NUMBER
+# Build step (one-time or when tools change):
+rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+
+# Then run:
+node $HOME/.agents/skills/github/tools/dist/pr-finding-triage.js --index /tmp/...comments.jsonl --repo OWNER/REPO --pr PR_NUMBER
 ```
 
 Outputs:

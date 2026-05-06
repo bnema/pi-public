@@ -7,7 +7,7 @@ description: Use when retrieving GitHub pull request review feedback, inline rev
 
 ## Overview
 
-Use the shared Bun/TypeScript tool to retrieve PR conversation comments, review bodies, review-level comments, and review threads. It performs one GitHub GraphQL review-data request and proves whether the response is complete.
+Use the shared tsc-compiled TypeScript tool to retrieve PR conversation comments, review bodies, review-level comments, and review threads. It performs one GitHub GraphQL review-data request and proves whether the response is complete.
 
 **Core rule:** never claim “all review comments” unless every relevant `pageInfo.hasNextPage` is `false`.
 
@@ -16,7 +16,11 @@ Use the shared Bun/TypeScript tool to retrieve PR conversation comments, review 
 From any checkout with `gh` authenticated:
 
 ```bash
-bun $HOME/.agents/skills/github/tools/pr-review-comments.ts --repo OWNER/REPO --pr PR_NUMBER
+# Build step (one-time or when tools change):
+rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+
+# Then run:
+node $HOME/.agents/skills/github/tools/dist/pr-review-comments.js --repo OWNER/REPO --pr PR_NUMBER
 ```
 
 For the current branch, you may omit `--repo` and `--pr`; that uses extra `git`/`gh pr view` detection calls before the one review-data GraphQL request.
@@ -32,13 +36,13 @@ Useful modes:
 
 ```bash
 # Summary JSON on stdout (default)
-bun $HOME/.agents/skills/github/tools/pr-review-comments.ts --repo OWNER/REPO --pr PR
+node $HOME/.agents/skills/github/tools/dist/pr-review-comments.js --repo OWNER/REPO --pr PR
 
 # Full flattened comments on stdout
-bun $HOME/.agents/skills/github/tools/pr-review-comments.ts --repo OWNER/REPO --pr PR --stdout index
+node $HOME/.agents/skills/github/tools/dist/pr-review-comments.js --repo OWNER/REPO --pr PR --stdout index
 
 # Write files only
-bun $HOME/.agents/skills/github/tools/pr-review-comments.ts --repo OWNER/REPO --pr PR --stdout none
+node $HOME/.agents/skills/github/tools/dist/pr-review-comments.js --repo OWNER/REPO --pr PR --stdout none
 ```
 
 ## Search the JSONL first

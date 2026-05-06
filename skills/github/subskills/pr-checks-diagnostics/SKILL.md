@@ -12,7 +12,11 @@ Failing or pending checks are **data**, not a tool failure. The tool exits 0 whe
 ## Command
 
 ```bash
-bun $HOME/.agents/skills/github/tools/pr-checks-diagnostics.ts --repo OWNER/REPO --pr PR_NUMBER
+# Build step (one-time or when tools change):
+rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+
+# Then run:
+node $HOME/.agents/skills/github/tools/dist/pr-checks-diagnostics.js --repo OWNER/REPO --pr PR_NUMBER
 ```
 
 Defaults:

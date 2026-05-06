@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /** Build a local evidence worksheet for PR review findings. */
 
 import { lstatSync, readFileSync, realpathSync } from "node:fs";
@@ -61,7 +61,7 @@ const DEFAULT_CATEGORIES: Category[] = ["must_fix", "verify_first", "needs_human
 const ALL_CATEGORIES: Category[] = ["must_fix", "verify_first", "probably_duplicate", "informational", "needs_human_decision"];
 
 function usage(): never {
-  console.log(`Usage: pr-review-verification.ts (--triage-json PATH | --index PATH) [options]
+  console.log(`Usage: pr-review-verification.js (--triage-json PATH | --index PATH) [options]
 
 Options:
   --triage-json PATH       Triage JSON from pr-finding-triage.

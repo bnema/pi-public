@@ -7,3 +7,6 @@ node_modules/
 
 # Temporary files from sync scripts
 *.tmp
+
+# Generated TypeScript tool output
+skills/*/tools/dist/

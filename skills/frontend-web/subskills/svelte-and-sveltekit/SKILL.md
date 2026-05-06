@@ -195,6 +195,13 @@ export const createPost = form(
 {/each}
 ```
 
+#### Remote `query()` client rules
+
+- In render/reactive contexts (template, `$derived`, `$effect`, component init), do **not** use `.run()`; use `await getData(...)` or `query.current/loading/error`.
+- Use `.run()` only for one-off access outside render: click/submit handlers, timers/debounces, universal `load`, or other non-reactive code.
+- `onMount` may run during Svelte's effect flush; if `.run()` throws there, directly `await getData(...)` instead.
+- A query created/anchored reactively can be awaited later from handlers; `refresh()` only affects active cached queries.
+
 ### Form Actions (classic pattern, still valid)
 
 ```ts

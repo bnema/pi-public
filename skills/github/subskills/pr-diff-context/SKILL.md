@@ -10,7 +10,11 @@ Use this before reviewing or verifying PR feedback when you need a compact, repr
 ## Command
 
 ```bash
-bun $HOME/.agents/skills/github/tools/pr-diff-context.ts --repo OWNER/REPO --pr PR_NUMBER --cwd /path/to/checkout
+# Build step (one-time or when tools change):
+rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+
+# Then run:
+node $HOME/.agents/skills/github/tools/dist/pr-diff-context.js --repo OWNER/REPO --pr PR_NUMBER --cwd /path/to/checkout
 ```
 
 Defaults:
@@ -25,10 +29,10 @@ Useful options:
 
 ```bash
 # Full JSON context on stdout
-bun $HOME/.agents/skills/github/tools/pr-diff-context.ts --repo OWNER/REPO --pr PR --stdout json
+node $HOME/.agents/skills/github/tools/dist/pr-diff-context.js --repo OWNER/REPO --pr PR --stdout json
 
 # Smaller or larger bounded diff
-bun $HOME/.agents/skills/github/tools/pr-diff-context.ts --repo OWNER/REPO --pr PR --max-diff-bytes 50000
+node $HOME/.agents/skills/github/tools/dist/pr-diff-context.js --repo OWNER/REPO --pr PR --max-diff-bytes 50000
 ```
 
 ## Output
