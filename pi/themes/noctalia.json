@@ -2,17 +2,17 @@
 	"$schema": "https://raw.githubusercontent.com/badlogic/pi-mono/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
 	"name": "noctalia",
 	"vars": {
-		"primary": "#4ed8e8",
-		"secondary": "#81d3de",
-		"tertiary": "#a3c9fe",
-		"error": "#ffb4ab",
-		"surface": "#0e141c",
-		"surfaceVariant": "#3c4758",
-		"onSurface": "#dde3ee",
-		"onSurfaceVariant": "#bcc7db",
-		"outline": "#8691a4",
-		"onPrimary": "#00363c",
-		"onError": "#690005"
+		"primary": "#ffc799",
+		"secondary": "#99ffe4",
+		"tertiary": "#fbadff",
+		"error": "#ff8080",
+		"surface": "#0c0c0c",
+		"surfaceVariant": "#1c1c1c",
+		"onSurface": "#ffffff",
+		"onSurfaceVariant": "#a0a0a0",
+		"outline": "#5e5e5e",
+		"onPrimary": "#000000",
+		"onError": "#000000"
 	},
 	"colors": {
 		"accent": "primary",
@@ -74,8 +74,8 @@
 		"bashMode": "secondary"
 	},
 	"export": {
-		"pageBg": "#0e141c",
-		"cardBg": "#3c4758",
-		"infoBg": "#3c4758"
+		"pageBg": "#0c0c0c",
+		"cardBg": "#1c1c1c",
+		"infoBg": "#1c1c1c"
 	}
 }

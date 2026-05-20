@@ -2,8 +2,8 @@
 name: go-reviewer
 description: Expert Go code reviewer — idiomatic Go, concurrency, error handling, performance. Use for all Go code changes.
 tools: read, grep, find, ls, bash
-model: deepseek/deepseek-v4-pro
-thinking: high
+model: openai-codex/gpt-5.4
+thinking: xhigh
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false
