@@ -1,22 +1,28 @@
 # pi-public
 
-Public-safe export of a Pi coding-agent configuration and reusable skills.
+Public-safe Pi configuration and reusable skills.
 
-This repository is generated from a private local Pi setup. The private sync tooling is intentionally not included in this public repository.
+This repository is generated from a private local Pi setup. Private sync tooling is intentionally not included.
 
-## Layout
+## What it includes
 
-- `pi/` — public Pi configuration snippets (`AGENTS.md`, agents, themes, sanitized settings/MCP config).
-- `skills/` — reusable public skills who are located in ~/.agents .
+- `pi/` — sanitized Pi config snippets, agents, themes, settings, and MCP config.
+- `skills/` — reusable public skills exported from the local skills directory.
 
-## Context7 API key
+## Use
 
-The exported MCP configuration does **not** include an API key. Set it in the environment before running Pi:
+Clone the repo and copy or symlink the pieces you want into your own Pi configuration.
 
-```sh
+```bash
+git clone https://github.com/bnema/pi-public.git
+```
+
+The exported Context7 MCP config does not include an API key. Set it in the environment before running Pi:
+
+```bash
 export CONTEXT7_API_KEY="your-context7-key"
 ```
 
-The local Context7 MCP server reads `CONTEXT7_API_KEY` directly, so the public `pi/mcp.json` does not pass `--api-key`.
+## License
 
-license: mit.
+MIT
