@@ -7,7 +7,7 @@ description: Use when managing per-project backlog folders, feature queues, asyn
 
 ## Overview
 
-Use a project-local `backlog/` folder as the source of truth for backlog item status. Work with the Obsidian vault as plain Markdown files; follow `../infra-personnel/subskills/obsidian-vault/SKILL.md` for filesystem, link, frontmatter, and destructive-action rules.
+Use a project-local `backlog/` folder as the source of truth for backlog item status. Work with the Obsidian vault as plain Markdown files. Resolve the vault path directly from `OBSIDIAN_VAULT` or `VAULT`; if neither is set and the human did not provide a vault path, ask for it before reading or writing backlog files.
 
 Lifecycle hook: if work starts, pauses, resumes, opens PR, or completes, update the matching backlog item.
 
@@ -103,9 +103,11 @@ For a quick read-only snapshot by unique project folder name, run from this skil
 ./backlog-project-tree "projectName"
 ```
 
-The helper defaults to `VAULT=$HOME/obsidian`; override when needed:
+Set the vault path with `OBSIDIAN_VAULT` or `VAULT`:
 
 ```bash
+OBSIDIAN_VAULT=/path/to/vault ./backlog-project-tree "projectName"
+# or
 VAULT=/path/to/vault ./backlog-project-tree "projectName"
 ```
 

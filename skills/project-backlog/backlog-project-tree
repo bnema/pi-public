@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VAULT=${VAULT:-$HOME/obsidian}
+VAULT=${OBSIDIAN_VAULT:-${VAULT:-}}
 STATUSES=("intake" "next" "ongoing" "paused" "done" "canceled")
 
 usage() {
-  printf 'Usage: %s "projectName"\n' "$(basename "$0")" >&2
-  printf 'Set VAULT=/path/to/vault to override the default Obsidian vault.\n' >&2
+  printf 'Usage: OBSIDIAN_VAULT=/path/to/vault %s "projectName"\n' "$(basename "$0")" >&2
+  printf 'Set OBSIDIAN_VAULT or VAULT to the Obsidian vault path.\n' >&2
 }
 
 trim() {
@@ -54,6 +54,11 @@ if [[ $# -ne 1 || -z ${1:-} ]]; then
 fi
 
 project_name=$1
+
+if [[ -z $VAULT ]]; then
+  printf 'Vault path is required. Set OBSIDIAN_VAULT or VAULT.\n' >&2
+  exit 2
+fi
 
 if [[ ! -d $VAULT ]]; then
   printf 'Vault not found: %s\n' "$VAULT" >&2
