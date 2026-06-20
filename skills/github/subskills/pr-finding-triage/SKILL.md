@@ -9,11 +9,13 @@ Use after `github-pr-review-comments` has produced a `commentIndexJsonl` file.
 
 This is **classification of reviewer claims**, not proof that the claims are valid. Verify code before changing behavior.
 
+Do not downgrade refactoring, cleanup, or maintainability findings merely because they are inconvenient or behavior still works; apply `code-review-release/subskills/thermo-nuclear-code-quality-review/SKILL.md` before dismissing them.
+
 ## Command
 
 ```bash
 # Build step (one-time or when tools change):
-rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
 
 # Then run:
 node $HOME/.agents/skills/github/tools/dist/pr-finding-triage.js --index /tmp/...comments.jsonl --repo OWNER/REPO --pr PR_NUMBER
@@ -30,7 +32,7 @@ Outputs:
 - `must_fix`: reviewer text claims critical/major/security/failing/broken behavior.
 - `verify_first`: inline or uncertain findings that need local code verification before action.
 - `probably_duplicate`: same normalized path/line/severity/body preview as an earlier finding.
-- `informational`: nitpick/trivial/info/style-only comments.
+- `informational`: nitpick/trivial/info/style-only comments. Not for structural maintainability findings unless verified against the thermo-nuclear quality bar.
 - `needs_human_decision`: API/product/UX/tradeoff or low-confidence comments.
 
 Each finding includes:

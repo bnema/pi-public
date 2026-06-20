@@ -11,7 +11,7 @@ Use this before reviewing or verifying PR feedback when you need a compact, repr
 
 ```bash
 # Build step (one-time or when tools change):
-rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
 
 # Then run:
 node $HOME/.agents/skills/github/tools/dist/pr-diff-context.js --repo OWNER/REPO --pr PR_NUMBER --cwd /path/to/checkout

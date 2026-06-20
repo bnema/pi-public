@@ -3,7 +3,7 @@ name: go-build-resolver
 description: Go build, vet, and compilation error resolver. Fixes build errors, go vet issues, and linter warnings with minimal surgical changes. Use when Go builds fail.
 tools: read, grep, find, ls, bash, edit, write
 model: openai-codex/gpt-5.5
-thinking: medium
+thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false

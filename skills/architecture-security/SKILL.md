@@ -9,5 +9,8 @@ Load only the matching sub-skill:
 
 | Trigger | Read |
 |---|---|
-| hex arch, ports and adapters, wrong layer, dependency direction, port hygiene | `subskills/hexarch/SKILL.md` |
-| web security, trust boundary, untrusted data, uploads, parsers, redirects, webhooks | `subskills/vibesec/SKILL.md` |
+| before committing to architecture, interface, migration, rollout, or consequential technical decision | `red-teaming-decisions/SKILL.md` |
+| improve architecture, refactoring opportunities, deep modules, shallow modules, seams, testability, AI-navigability | `architecture-security/subskills/improve-codebase-architecture/SKILL.md` |
+| hex arch, ports and adapters, wrong layer, dependency direction, port hygiene | `architecture-security/subskills/hexarch/SKILL.md` |
+| configure or run hexcheck, `.hexcheck.yaml`, Go architecture linter, adapter business-logic warnings, mock discipline | `architecture-security/subskills/hexcheck/SKILL.md` |
+| web security, trust boundary, untrusted data, uploads, parsers, redirects, webhooks | `architecture-security/subskills/vibesec/SKILL.md` |

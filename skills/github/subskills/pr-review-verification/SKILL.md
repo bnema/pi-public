@@ -13,7 +13,7 @@ This tool does **not** decide whether a reviewer is correct. It only checks whet
 
 ```bash
 # Build step (one-time or when tools change):
-rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
 
 # Then run:
 node $HOME/.agents/skills/github/tools/dist/pr-review-verification.js \

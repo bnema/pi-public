@@ -2,8 +2,8 @@
 name: creative-designer
 description: Use when you need elite UI/UX design thinking for product interfaces. Produces distinctive, production-ready design directions with multiple alternatives, explicit tradeoffs, and measurable quality criteria.
 tools: read, grep, find, ls, bash, edit, write
-model: openai-codex/gpt-5.5
-thinking: medium
+model: opencode-go/glm-5.2
+thinking: high
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false

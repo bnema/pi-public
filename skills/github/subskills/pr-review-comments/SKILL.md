@@ -17,7 +17,7 @@ From any checkout with `gh` authenticated:
 
 ```bash
 # Build step (one-time or when tools change):
-rtk tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
+tsc --project $HOME/.agents/skills/github/tools/tsconfig.json
 
 # Then run:
 node $HOME/.agents/skills/github/tools/dist/pr-review-comments.js --repo OWNER/REPO --pr PR_NUMBER

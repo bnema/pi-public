@@ -3,7 +3,7 @@ name: rust-build-resolver
 description: Rust build, compilation, and dependency error resolver. Fixes cargo build errors, borrow checker issues, and Cargo.toml problems with minimal surgical changes. Use when Rust builds fail.
 tools: read, grep, find, ls, bash, edit, write
 model: openai-codex/gpt-5.5
-thinking: medium
+thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false

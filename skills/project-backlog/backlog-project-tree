@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VAULT=${VAULT:-$HOME/obsidian}
+STATUSES=("intake" "next" "ongoing" "paused" "done" "canceled")
+
+usage() {
+  printf 'Usage: %s "projectName"\n' "$(basename "$0")" >&2
+  printf 'Set VAULT=/path/to/vault to override the default Obsidian vault.\n' >&2
+}
+
+trim() {
+  local value=$1
+  value=${value#"${value%%[![:space:]]*}"}
+  value=${value%"${value##*[![:space:]]}"}
+  value=${value#\"}; value=${value%\"}
+  value=${value#\'}; value=${value%\'}
+  printf '%s' "$value"
+}
+
+metadata_for_file() {
+  local file=$1 line key value first=1 description=
+  local parts=()
+
+  while IFS= read -r line; do
+    if [[ $first -eq 1 ]]; then
+      first=0
+      [[ $line == '---' ]] || return 0
+      continue
+    fi
+
+    [[ $line == '---' ]] && break
+    [[ $line == *:* ]] || continue
+
+    key=$(trim "${line%%:*}")
+    value=$(trim "${line#*:}")
+    [[ -n $value ]] || continue
+
+    case $key in
+      type|priority) parts+=("$value") ;;
+      updated|due) parts+=("$key=$value") ;;
+      agent_run) parts+=("run=$value") ;;
+      description) description=$value ;;
+    esac
+  done < "$file"
+
+  ((${#parts[@]})) && printf ' [%s]' "${parts[*]}"
+  [[ -n $description ]] && printf ' — %s' "$description"
+}
+
+if [[ $# -ne 1 || -z ${1:-} ]]; then
+  usage
+  exit 2
+fi
+
+project_name=$1
+
+if [[ ! -d $VAULT ]]; then
+  printf 'Vault not found: %s\n' "$VAULT" >&2
+  exit 1
+fi
+
+mapfile -t matches < <(find "$VAULT" -type d -name "$project_name" | sort)
+
+case ${#matches[@]} in
+  0)
+    printf 'No project named %q found under %s\n' "$project_name" "$VAULT" >&2
+    exit 1
+    ;;
+  1)
+    project_dir=${matches[0]}
+    ;;
+  *)
+    printf 'Project name %q is not unique under %s:\n' "$project_name" "$VAULT" >&2
+    printf '  %s\n' "${matches[@]}" >&2
+    exit 1
+    ;;
+esac
+
+relative_project=${project_dir#"$VAULT"/}
+backlog_dir=$project_dir/backlog
+
+printf '%s\n' "$relative_project"
+printf '└── backlog/\n'
+
+last_index=$((${#STATUSES[@]} - 1))
+for i in "${!STATUSES[@]}"; do
+  status=${STATUSES[$i]}
+  status_dir=$backlog_dir/$status
+
+  if [[ $i -eq $last_index ]]; then
+    branch='    └──'
+    child_prefix='        '
+  else
+    branch='    ├──'
+    child_prefix='    │   '
+  fi
+
+  if [[ ! -d $status_dir ]]; then
+    printf '%s %s/ (missing)\n' "$branch" "$status"
+    continue
+  fi
+
+  printf '%s %s/\n' "$branch" "$status"
+
+  mapfile -t files < <(find "$status_dir" -type f -name '*.md' -printf '%P\n' | sort)
+  if [[ ${#files[@]} -eq 0 ]]; then
+    printf '%s└── (no markdown files)\n' "$child_prefix"
+    continue
+  fi
+
+  file_last_index=$((${#files[@]} - 1))
+  for j in "${!files[@]}"; do
+    meta=$(metadata_for_file "$status_dir/${files[$j]}")
+    if [[ $j -eq $file_last_index ]]; then
+      printf '%s└── %s%s\n' "$child_prefix" "${files[$j]}" "$meta"
+    else
+      printf '%s├── %s%s\n' "$child_prefix" "${files[$j]}" "$meta"
+    fi
+  done
+done

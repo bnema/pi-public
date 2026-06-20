@@ -2,7 +2,7 @@
 name: grunt-worker
 description: Low-cost worker for tedious, mechanical tasks that require no creative thinking — renaming, reformatting, bulk edits, repetitive file operations, boilerplate generation. Prefer this when the task is clear and mostly execution. The parent agent MUST provide exhaustive, step-by-step instructions. This agent does not infer intent.
 tools: read, grep, find, ls, bash, edit, write
-model: deepseek/deepseek-v4-flash
+model: openai-codex/gpt-5.5
 thinking: low
 systemPromptMode: replace
 inheritProjectContext: false

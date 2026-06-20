@@ -2,8 +2,8 @@
 name: general
 description: General-purpose delegated agent for skill-driven review passes and bounded implementation tasks.
 tools: read, grep, find, ls, bash, edit, write
-model: deepseek/deepseek-v4-pro
-thinking: high
+model: openai-codex/gpt-5.5
+thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: true

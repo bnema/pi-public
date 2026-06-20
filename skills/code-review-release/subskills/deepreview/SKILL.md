@@ -6,9 +6,11 @@ disable-model-invocation: true
 
 # Deep Review
 
+**Required baseline:** before any pass-specific lens, every reviewer applies `code-review-release/subskills/thermo-nuclear-code-quality-review/SKILL.md` as the universal first-priority maintainability standard. Treat structural simplification, code-judo opportunities, file-size blowups, spaghetti branching, boundary/type cleanliness, and unnecessary abstraction churn as presumptive blockers when visible.
+
 Multi-stage code review pipeline using parallel subagents. The entire review runs outside the main context. A gatherer agent collects context and runs static analysis, six reviewer agents execute parallel review passes, a verifier agent checks critical findings, then the gatherer formats the final report.
 
-Languages: Go, Rust, TypeScript, Svelte, Astro.
+Languages: language-agnostic by default; use detected project tools and conventions for Go, Rust, TypeScript, Svelte, Astro, or any other stack present in the changed files.
 
 ## Pipeline
 
@@ -121,7 +123,8 @@ Auto-detect languages from changed file extensions. For each tool: check if inst
 | Rust | clippy | `cargo clippy --message-format json 2>&1` | Full crate, filter output to changed files |
 | Rust | cargo-audit | `cargo audit --json` | Full crate |
 | TS/Svelte/Astro | eslint | `npx eslint --format json <files>` | Pass changed file paths |
-| All | gitleaks | `gitleaks detect --no-git -v --source <dir>` | Changed files directory |
+
+Do not run whole-repo secret scanners such as gitleaks in deep review; they are too CPU-heavy. Inspect changed files for obvious secrets only when relevant.
 
 If a tool is missing, warn and continue:
 
@@ -142,7 +145,7 @@ Detect project architecture to include in reviewer context:
 
 ### Six Review Passes
 
-Each reviewer receives: diff, changed file list, static analysis findings, architecture context, and their specific pass instructions below.
+Each reviewer receives: diff, changed file list, static analysis findings, architecture context, the thermo-nuclear code-quality baseline, and their specific pass instructions below.
 
 **Each pass assigns its own severity** (CRITICAL, HIGH, MEDIUM, LOW) based on impact and exploitability. Severity follows impact, not category.
 
@@ -160,13 +163,13 @@ Nil/null dereference, off-by-one, race conditions, unchecked errors, unreachable
 Unnecessary allocations, N+1 queries, missing indexes, unbounded loops, blocking calls in async, excessive copying. Architecture: wrong-layer DB calls hide N+1 patterns.
 
 **Pass 4 — Code quality (maintainability):**
-Duplication, cyclomatic complexity, dead code, unclear naming, god functions. Primary home for architecture layer violations.
+Thermo-nuclear quality audit: ambitious structural simplification, code-judo reframing, deletion of incidental complexity, file-size threshold checks, spaghetti-condition growth, abstraction boundaries, type-contract cleanliness, canonical helper reuse, god functions, duplication, cyclomatic complexity, dead code, and unclear naming. Primary home for architecture layer violations.
 
 **Pass 5 — API contracts (consumer impact):**
 Breaking changes, missing boundary validation, type mismatches, undocumented behavior changes, port hygiene violations.
 
 **Pass 6 — Dependencies (supply chain):**
-Known CVEs, outdated packages, unnecessary deps, license issues. Cross-reference cargo-audit and gitleaks findings.
+Known CVEs, outdated packages, unnecessary deps, license issues. Cross-reference cargo-audit findings.
 
 ## Stage 4: Verification (Verifier)
 
@@ -246,4 +249,3 @@ All tools assumed pre-installed. Missing tools get a warning; the review continu
 | cargo-audit | `cargo install cargo-audit` |
 | eslint | Project-local via `npx` |
 | ast-grep | `cargo install ast-grep` or `npm i -g @ast-grep/cli` |
-| gitleaks | `brew install gitleaks` or download binary |

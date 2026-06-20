@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Finalizer Skill
 
+**Required baseline:** finalization must include the thermo-nuclear code-quality standard from `code-review-release/subskills/thermo-nuclear-code-quality-review/SKILL.md` as the first-priority maintainability bar. The finalizer's specialized subagents add lenses; they do not replace the requirement to catch structural regressions, missed code-judo simplifications, file-size blowups, spaghetti branching, weak boundaries/types, canonical-helper duplication, and unnecessary abstraction/cast churn.
+
 This skill is a wrapper around the `finalizer` subagent.
 
 Use it when the user asks for any of these:
@@ -34,10 +36,10 @@ Before invoking the `finalizer` subagent, determine all four values it requires:
 Use focused git commands in the intended repo, for example:
 
 ```bash
-rtk git branch --show-current
-rtk git rev-parse --show-toplevel
-rtk proxy git merge-base --fork-point origin/main HEAD 2>/dev/null
-rtk proxy git merge-base --fork-point main HEAD 2>/dev/null
+git branch --show-current
+git rev-parse --show-toplevel
+git merge-base --fork-point origin/main HEAD 2>/dev/null
+git merge-base --fork-point main HEAD 2>/dev/null
 ```
 
 Prefer the repo path explicitly given by the user. If the user did not provide one and the repo is ambiguous, ask.
@@ -60,6 +62,10 @@ Use this structure in the `task` field:
 ```text
 Run the full finalization pass for this exact checkout.
 
+Required review baseline:
+- apply code-review-release/subskills/thermo-nuclear-code-quality-review/SKILL.md first for all review judgments
+- treat structural simplification/code-judo opportunities, file-size blowups, spaghetti branching, boundary/type cleanliness, canonical helper reuse, and unnecessary abstraction/cast churn as first-class finalization concerns
+
 Required context:
 - exact working directory to use: <WORKDIR>
 - repo root for that working directory: <REPO_ROOT>
@@ -73,6 +79,7 @@ Stay pinned to that exact checkout.
 
 The `finalizer` subagent is responsible for launching the required child subagents.
 Its configuration expects parallel `general` subagents with these explicit skills:
+- `thermo-nuclear-code-quality-review`
 - `hexarch`
 - `simplify`
 - `coderabbit`

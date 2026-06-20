@@ -1,50 +1,57 @@
 {
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-mcp-adapter",
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:@howaboua/pi-auto-trees"
   ],
   "subagents": {
     "agentOverrides": {
       "backend-data": {
-        "model": "deepseek/deepseek-v4-pro",
-        "thinking": "high"
+        "model": "openai-codex/gpt-5.5",
+        "thinking": "low"
       },
       "context-builder": {
-        "model": "deepseek/deepseek-v4-pro",
+        "model": "openai-codex/gpt-5.5",
         "thinking": "medium"
       },
       "delegate": {
-        "thinking": "medium"
+        "model": "openai-codex/gpt-5.5",
+        "thinking": "low"
       },
       "oracle": {
-        "model": "deepseek/deepseek-v4-pro",
-        "thinking": "high"
+        "model": "openai-codex/gpt-5.5",
+        "thinking": "medium"
       },
       "planner": {
-        "model": "deepseek/deepseek-v4-pro",
+        "model": "openai-codex/gpt-5.5",
         "thinking": "medium"
       },
       "researcher": {
-        "model": "deepseek/deepseek-v4-pro",
+        "model": "openai-codex/gpt-5.5",
         "thinking": "medium"
       },
       "reviewer": {
-        "model": "deepseek/deepseek-v4-pro",
-        "thinking": "high"
+        "model": "openai-codex/gpt-5.5",
+        "thinking": "medium"
       },
       "scout": {
-        "model": "deepseek/deepseek-v4-flash",
-        "thinking": "low"
+        "model": "opencode-go/deepseek-v4-flash",
+        "thinking": "minimal"
       },
       "worker": {
-        "model": "deepseek/deepseek-v4-pro",
-        "thinking": "high"
+        "model": "opencode-go/deepseek-v4-flash",
+        "thinking": "medium"
       }
     }
   },
-  "enabledModels": []
+  "enabledModels": [
+    "openai-codex/gpt-5.5",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.4-mini"
+  ],
+  "theme": "noctalia"
 }

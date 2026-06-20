@@ -1,55 +1,114 @@
 ---
 name: simplify
-description: Review changed code for reuse, quality, and efficiency, then fix any issues found. Launches three parallel review agents covering code reuse, code quality, and efficiency.
+description: Use as the default instruction set for simplification review subagents after code changes. Dispatches focused reviewers for reuse, quality, and efficiency so changed code gets cleaned up before completion.
 disable-model-invocation: true
 ---
 
-# Simplify: Code Review and Cleanup
+# Simplify: Parallel Cleanup Review
 
-Review all changed files for reuse, quality, and efficiency. Fix any issues found.
+**Required baseline:** this simplification pass always starts from `code-review-release/subskills/thermo-nuclear-code-quality-review/SKILL.md`. The thermo-nuclear standard is the first-priority review bar: ambitious code-judo simplification, deletion of incidental complexity, file-size threshold checks, spaghetti-condition growth, boundary/type cleanliness, canonical helper reuse, and skepticism toward wrappers/casts/magic.
 
-## Phase 1: Identify Changes
+Use this skill whenever changed code needs a simplification pass, especially after implementing a feature/fix and before saying the work is done.
 
-Run `git diff` (or `git diff HEAD` if there are staged changes) to see what changed. If there are no git changes, review the most recently modified files that the user mentioned or that you edited earlier in this conversation.
+This is primarily a **subagent briefing pattern**: do not keep the whole simplification review in the main agent's head. Split it into focused review lenses and give each subagent a narrow job.
 
-## Phase 2: Launch Three Review Agents in Parallel
+## Phase 1: Gather the review packet
 
-Use the Agent tool to launch all three agents concurrently in a single message. Pass each agent the full diff so it has the complete context.
+Build a compact packet for all reviewers:
 
-### Agent 1: Code Reuse Review
+1. Current goal / user request.
+2. Changed files.
+3. Diff (`git diff`, or `git diff HEAD` if staged changes exist).
+4. Any important constraints: project style, tests already run, files not to touch.
+
+If there are no git changes, review the recently modified files the user mentioned or that you edited in this conversation.
+
+## Phase 2: Dispatch focused simplification reviewers
+
+Launch reviewers in parallel. Each reviewer gets the same packet but only one lens.
+
+Minimum set:
+
+| Reviewer | Lens | Prompt focus |
+|---|---|---|
+| Reuse reviewer | Existing code reuse | “Find newly written code that duplicates existing helpers, utilities, components, constants, types, or patterns.” |
+| Quality reviewer | Thermo-nuclear maintainability | “Apply the thermo-nuclear code-quality baseline: find structural simplification/code-judo opportunities, spaghetti branching, file-size blowups, redundant state, parameter sprawl, copy-paste, leaky abstractions, stringly typing, unnecessary wrappers/comments, casts, and weak boundaries.” |
+| Efficiency reviewer | Performance and unnecessary work | “Find redundant work, missed concurrency, hot-path bloat, recurring no-op updates, TOCTOU existence checks, leaks, or overly broad operations.” |
+
+For larger diffs, split further by area **and** lens. Examples:
+
+- “Reuse review for backend files only”
+- “Quality review for Svelte components only”
+- “Efficiency review for data-loading paths only”
+
+Do not ask every reviewer to do everything. Narrow lenses produce better findings.
+
+## Subagent prompt template
+
+```text
+Review this change using ONLY the <reuse|quality|efficiency> simplification lens.
+
+Context:
+<goal and constraints>
+
+Changed files:
+<file list>
+
+Diff:
+<diff>
+
+Instructions:
+- Apply the thermo-nuclear code-quality baseline first, then your assigned lens.
+- Look for concrete simplification opportunities in your assigned lens only.
+- Prefer findings that remove code, reuse existing code, reduce state, or reduce repeated work.
+- For each finding, include: file/path, exact issue, why it matters, suggested fix.
+- Mark likely false positives or trade-offs explicitly.
+- Do not implement changes; report findings for the main agent to verify.
+```
+
+## Review lenses
+
+### Reuse reviewer
 
 For each change:
 
-1. **Search for existing utilities and helpers** that could replace newly written code. Look for similar patterns elsewhere in the codebase — common locations are utility directories, shared modules, and files adjacent to the changed ones.
-2. **Flag any new function that duplicates existing functionality.** Suggest the existing function to use instead.
-3. **Flag any inline logic that could use an existing utility** — hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
+1. Search for existing utilities, helpers, components, constants, or types that could replace newly written code.
+2. Flag any new function that duplicates existing functionality.
+3. Flag inline logic that could use an existing utility: string manipulation, path handling, environment checks, type guards, formatting, validation, date handling, and similar patterns.
 
-### Agent 2: Code Quality Review
+### Quality reviewer
 
-Review the same changes for hacky patterns:
+Apply the full thermo-nuclear baseline before local cleanup concerns. Prioritize structural regressions, missed code-judo simplifications, spaghetti branching, boundary/type-contract problems, file-size decomposition issues, and unnecessary abstraction churn.
 
-1. **Redundant state**: state that duplicates existing state, cached values that could be derived, observers/effects that could be direct calls
-2. **Parameter sprawl**: adding new parameters to a function instead of generalizing or restructuring existing ones
-3. **Copy-paste with slight variation**: near-duplicate code blocks that should be unified with a shared abstraction
-4. **Leaky abstractions**: exposing internal details that should be encapsulated, or breaking existing abstraction boundaries
-5. **Stringly-typed code**: using raw strings where constants, enums (string unions), or branded types already exist in the codebase
-6. **Unnecessary JSX nesting**: wrapper elements that add no layout value — check if inner component props already provide the needed behavior
-7. **Unnecessary comments**: comments explaining WHAT the code does (well-named identifiers already do that), narrating the change, or referencing the task/caller — delete; keep only non-obvious WHY (hidden constraints, subtle invariants, workarounds)
+Look for:
 
-### Agent 3: Efficiency Review
+1. **Redundant state**: duplicated state, cached values that could be derived, observers/effects that could be direct calls.
+2. **Parameter sprawl**: adding parameters instead of generalizing or restructuring.
+3. **Copy-paste with slight variation**: near-duplicate blocks that should be unified.
+4. **Leaky abstractions**: exposing internals or breaking existing seams.
+5. **Stringly-typed code**: raw strings where constants, enums/string unions, or branded types already exist.
+6. **Unnecessary UI nesting**: wrappers that add no layout or semantic value.
+7. **Unnecessary comments**: comments explaining WHAT, narrating the task, or referencing the caller. Keep only non-obvious WHY.
 
-Review the same changes for efficiency:
+### Efficiency reviewer
 
-1. **Unnecessary work**: redundant computations, repeated file reads, duplicate network/API calls, N+1 patterns
-2. **Missed concurrency**: independent operations run sequentially when they could run in parallel
-3. **Hot-path bloat**: new blocking work added to startup or per-request/per-render hot paths
-4. **Recurring no-op updates**: state/store updates inside polling loops, intervals, or event handlers that fire unconditionally — add a change-detection guard so downstream consumers aren't notified when nothing changed. Also: if a wrapper function takes an updater/reducer callback, verify it honors same-reference returns (or whatever the "no change" signal is) — otherwise callers' early-return no-ops are silently defeated
-5. **Unnecessary existence checks**: pre-checking file/resource existence before operating (TOCTOU anti-pattern) — operate directly and handle the error
-6. **Memory**: unbounded data structures, missing cleanup, event listener leaks
-7. **Overly broad operations**: reading entire files when only a portion is needed, loading all items when filtering for one
+Look for:
 
-## Phase 3: Fix Issues
+1. **Unnecessary work**: redundant computations, repeated file reads, duplicate network/API calls, N+1 patterns.
+2. **Missed concurrency**: independent operations run sequentially.
+3. **Hot-path bloat**: blocking work added to startup, per-request, per-render, or tight loops.
+4. **Recurring no-op updates**: unconditional state/store updates in polling, intervals, event handlers, or reducer/updater wrappers that ignore same-reference no-op returns.
+5. **TOCTOU existence checks**: pre-checking file/resource existence before operating; operate directly and handle errors.
+6. **Memory/resource leaks**: unbounded structures, missing cleanup, listener leaks.
+7. **Overly broad operations**: loading all items/files when filtering or reading a small portion would do.
 
-Wait for all three agents to complete. Aggregate their findings and fix each issue directly. If a finding is a false positive or not worth addressing, note it and move on — do not argue with the finding, just skip it.
+## Phase 3: Main-agent verification and fixes
 
-When done, briefly summarize what was fixed (or confirm the code was already clean).
+When findings come back:
+
+1. Verify each finding against the code. Do not accept subagent output blindly.
+2. Fix concrete issues directly.
+3. Skip false positives or changes not worth the trade-off, and note why briefly.
+4. Run the relevant verification command before claiming completion.
+
+Final response: summarize what simplification issues were fixed, what was intentionally skipped, and what verification ran.
